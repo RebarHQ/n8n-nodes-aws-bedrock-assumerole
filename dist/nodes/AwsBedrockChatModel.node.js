@@ -19,6 +19,7 @@ function resolveBase(credentials) {
         roleArn: credentials.roleArn || fromEnv(process.env.AWS_ROLE_ARN),
         region: credentials.region || fromEnv(process.env.AWS_REGION) || 'us-east-1',
         durationSeconds: credentials.durationSeconds || 3600,
+        externalId: credentials.externalId || '',
     };
 }
 // Get cached credentials or fetch new ones

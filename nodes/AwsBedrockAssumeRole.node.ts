@@ -24,6 +24,7 @@ function resolveBase(credentials: any) {
 		roleArn: credentials.roleArn || fromEnv(process.env.AWS_ROLE_ARN),
 		region: credentials.region || fromEnv(process.env.AWS_REGION) || 'us-east-1',
 		durationSeconds: credentials.durationSeconds || 3600,
+		externalId: credentials.externalId || '',
 	};
 
 	console.log('[AWS Bedrock] Resolved credentials:', {
