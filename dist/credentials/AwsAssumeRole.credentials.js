@@ -47,6 +47,15 @@ class AwsAssumeRole {
                 description: 'AWS region for the STS and Bedrock services',
             },
             {
+                displayName: 'External ID',
+                name: 'externalId',
+                type: 'string',
+                default: '',
+                required: false,
+                placeholder: 'e.g. rebarhq-fullbay-bedrock',
+                description: 'External ID required by the trust policy of the role being assumed (optional)',
+            },
+            {
                 displayName: 'Session Duration (seconds)',
                 name: 'durationSeconds',
                 type: 'number',
@@ -60,7 +69,7 @@ class AwsAssumeRole {
                 type: 'string',
                 default: '',
                 required: false,
-                placeholder: '616474819159',
+                placeholder: 'Leave empty for standard model IDs',
                 description: 'AWS account ID that owns the application inference profiles (optional). If not set, standard model IDs will be used.',
             },
             {

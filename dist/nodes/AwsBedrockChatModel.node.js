@@ -58,11 +58,15 @@ async function assumeRole(credentials) {
         region,
         credentials: stsCredentials,
     });
-    const result = await sts.send(new client_sts_1.AssumeRoleCommand({
+    const assumeRoleParams = {
         RoleArn: roleArn,
         RoleSessionName: 'n8n-bedrock-chat-session',
         DurationSeconds: credentials.durationSeconds || 3600,
-    }));
+    };
+    if (credentials.externalId) {
+        assumeRoleParams.ExternalId = credentials.externalId;
+    }
+    const result = await sts.send(new client_sts_1.AssumeRoleCommand(assumeRoleParams));
     if (!result.Credentials) {
         throw new Error('Failed to obtain temporary credentials from STS');
     }
@@ -357,6 +361,14 @@ class AwsBedrockChatModel {
                         {
                             name: 'Claude Opus 4.1',
                             value: 'us.anthropic.claude-opus-4-1-20250805-v1:0',
+                        },
+                        {
+                            name: 'Claude Opus 4.6',
+                            value: 'us.anthropic.claude-opus-4-6-v1:0',
+                        },
+                        {
+                            name: 'Claude Sonnet 4.6',
+                            value: 'us.anthropic.claude-sonnet-4-6-v1:0',
                         },
                     ];
                     let credential;
