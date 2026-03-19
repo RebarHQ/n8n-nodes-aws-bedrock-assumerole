@@ -5,7 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Build output
-dist/
+# dist/ — committed for direct GitHub install support
 build/
 *.tsbuildinfo
 
