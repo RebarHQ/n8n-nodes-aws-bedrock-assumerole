@@ -21,6 +21,7 @@ import type { StructuredToolInterface } from '@langchain/core/tools';
 
 import { STSClient, AssumeRoleCommand } from '@aws-sdk/client-sts';
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
+import { fromNodeProviderChain } from '@aws-sdk/credential-providers';
 
 // Import shared utilities from the main node
 import {
@@ -73,20 +74,19 @@ async function assumeRole(credentials: any) {
 	const region = credentials.region || fromEnv(process.env.AWS_REGION) || 'us-east-1';
 	const roleArn = credentials.roleArn || fromEnv(process.env.AWS_ROLE_ARN);
 
-	if (!accessKeyId || !secretAccessKey) {
-		throw new Error('Missing AWS base credentials (AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY)');
-	}
-
 	if (!roleArn) {
 		throw new Error('Missing Role ARN to assume');
 	}
 
+	// Use explicit credentials if provided, otherwise fall back to the default
+	// AWS credential provider chain (ECS task role, instance profile, env vars, etc.)
+	const stsCredentials = accessKeyId && secretAccessKey
+		? { accessKeyId, secretAccessKey }
+		: fromNodeProviderChain();
+
 	const sts = new STSClient({
 		region,
-		credentials: {
-			accessKeyId,
-			secretAccessKey,
-		},
+		credentials: stsCredentials,
 	});
 
 	const result = await sts.send(

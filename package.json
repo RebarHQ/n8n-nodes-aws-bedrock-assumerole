@@ -67,7 +67,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.0.0",
-    "@aws-sdk/client-sts": "^3.0.0"
+    "@aws-sdk/client-sts": "^3.0.0",
+    "@aws-sdk/credential-providers": "^3.0.0"
   },
   "peerDependencies": {
     "n8n-workflow": "*",
